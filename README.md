@@ -4,13 +4,13 @@
 ## Tech Stack and Features
 
 - [FastAPI](https://fastapi.tiangolo.com/) - Python framework for building APIs.
-    - 🙋 Whenever a new user is created the licence details are generated and saved to database.
+    - 🙋 Whenever a new user is created the license details are generated and saved to database.
     - ➿ Fields to save product type, Licence validity, etc.
     - 💸 Generate users from webhooks using payment gateways.
 - [Pydantic](https://docs.pydantic.dev) - Used by FastAPI, for data validation and settings management
 - [PostgreSQL](https://www.postgresql.org) as the SQL database.
     - 💾 Two tables, one for user data and one for admin data.
-    - 📃 Supports pagination to easily create admin dashboards.
+    - 📃 Supports pagination and filters to easily create admin dashboards.
 - [SQLAlchemy](https://www.sqlalchemy.org/) - SQL toolkit and Object-Relational Mapping (ORM) library.
     - 📄 Complete helper functions for CRUD operations on user and admin tables.
     - 🔐 All the passwords are secured using bcrypt hashing.
@@ -56,7 +56,7 @@ I thought of making the entire template into a boilerplate code so that other pe
    ```bash
    python -m venv venv
    ```
-   Activate it using 
+   Activate it using
    ```bash
    #on windows
    venv\Scripts\Activate
@@ -71,7 +71,7 @@ I thought of making the entire template into a boilerplate code so that other pe
 
 ## Usage
 
-1. Configure the environment variables in the template.env file and rename it to 
+1. Configure the environment variables in the template.env file and rename it to
    .env
 2. Run alembic migrations to create the tables.
    ```bash
@@ -89,7 +89,7 @@ I thought of making the entire template into a boilerplate code so that other pe
     cd src
     uvicorn main:app --reload
     ```
-    or 
+    or
 
     ```bash
     cd src
@@ -97,17 +97,24 @@ I thought of making the entire template into a boilerplate code so that other pe
     ```
 
 5. Visit `http://localhost:8000/docs` in your browser to access the API docs.
-   
+
 ![Dashboard](assets/img/FastAPI_docs.png)
 
 ### Testing
-All the tests are done using Pytest. 
+All the tests are done using Pytest.
 
 To run all the tests, run the following command
 
 ```bash
 pytest tests
 ```
+
+or you can use tox for testing and linting
+```
+tox
+```
+This will run all the tests, formats and lints the code using Ruff.
+
 Tests are divided into 3 major types
 1) Database tests - Contains the tests for database services and operations
 2) User tests - Contains tests for all the user endpoints
@@ -121,7 +128,7 @@ alembic revisions --autogenerate -m "your message"
 This will create a new migration with your changes in the models.
 
 ## Project Structure
-   
+
 ```text
 |   .pylintrc                       # Pylint configuration
 |   alembic.ini                     # Alembic Config
@@ -146,7 +153,7 @@ This will create a new migration with your changes in the models.
 |   ├── docs                        # FastAPI Documentation metadata
 |   │   ├── docs.py
 |   ├── router                      # API routes files
-|   │   ├── admin.py                
+|   │   ├── admin.py
 |   │   ├── user.py
 |   ├── schemas                     # Pydantic models for request/response schemas
 |   │   ├── admins.py
@@ -178,26 +185,26 @@ Currently have 2 shemas, one for the database and the other for the users.
 src/db/models.py
 ```text
 users ->
-    txid                # Saves the transaction ID            
-    amount              # Pucharse Amount       
-    payment_method      # Payment Method used for the purchase               
-    product             # Name of the product/ Product Type (ENUM src/schemas/users)           
-    email_id            # Email of the user           
-    contact_no          # Contact number of the user            
-    subscription        # Licence validity (in months)               
-    order_date          # Purchase Date           
-    Start_Date          # License Activation Date           
-    End_Date            # License Expiry Date                      
-    License_Key         # Unique License Key               
-    License_Activated   # Whether the License key has been used or not                   
+    txid                # Saves the transaction ID
+    amount              # Pucharse Amount
+    payment_method      # Payment Method used for the purchase
+    product             # Name of the product/ Product Type (ENUM src/schemas/users)
+    email_id            # Email of the user
+    contact_no          # Contact number of the user
+    subscription        # Licence validity (in months)
+    order_date          # Purchase Date
+    Start_Date          # License Activation Date
+    End_Date            # License Expiry Date
+    License_Key         # Unique License Key
+    License_Activated   # Whether the License key has been used or not
 ```
 
 ```text
 admins ->
-    username            # Admin Username (Must be unique,PK)        
-    disabled            # to disable the admin        
+    username            # Admin Username (Must be unique,PK)
+    disabled            # to disable the admin
     scope               # Scope of permissions (ENUM src/schemas/admins)
-    hashed_password     # Password stored as hash                
+    hashed_password     # Password stored as hash
 ```
 
 ### License Key Generation
@@ -205,13 +212,13 @@ License keys are generated using Transaction_ID + Email_ID -> encrypting using A
 You need to change the encryption keys SECRET_KEY and INITIALISATION_VECTOR from settings.py file.
 
 ## To-Do
-- [ ] Add Tox Support for automatic testing and linting.
+- [x] Add Tox Support for automatic testing and linting.
 - [ ] Add test cases for different OAuth Scopes.
 - [ ] Add Docker Support.
-- [ ] Add Deployment Scripts. 
-- [ ] Email or OTP-Based Password Recovery. 
-- [ ] Use poetry for dependency management. (maybe) 
-  
+- [ ] Add Deployment Scripts.
+- [ ] Email or OTP-Based Password Recovery.
+- [ ] Use poetry for dependency management. (maybe)
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
