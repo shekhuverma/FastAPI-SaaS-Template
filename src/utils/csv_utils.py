@@ -38,7 +38,7 @@ def data_validator(csv_file_path):
     with open(csv_file_path, encoding="utf-8-sig") as f:
         for RP_reponse in csv.DictReader(f, skipinitialspace=True):
             try:
-                data = users.CreateUser(
+                data = users.CreateUser(  # noqa: F841
                     txid=RP_reponse["tx_id"],
                     amount=RP_reponse["amount"],
                     payment_method="NA",
@@ -56,5 +56,4 @@ def data_validator(csv_file_path):
             except ValueError as e:
                 return f"{e} in row {RP_reponse}"
 
-    return True
     return True

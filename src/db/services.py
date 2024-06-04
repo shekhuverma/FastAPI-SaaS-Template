@@ -181,7 +181,7 @@ async def activate_license(license: users.License, db: Session) -> list:
             return None
 
         # Setting the license to activated so that it cannot be used again
-        elif user.License_Activated == False:
+        elif user.License_Activated is False:
             user.License_Activated = True
             db.commit()
             return [user.End_Date, user.product]

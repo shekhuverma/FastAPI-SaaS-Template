@@ -1,7 +1,5 @@
-from datetime import datetime
 from typing import Annotated
 
-from dateutil.relativedelta import relativedelta
 from fastapi import Depends, FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,8 +8,6 @@ from fastapi.responses import JSONResponse  # for example
 from src.db import services
 from src.docs.docs import tags_metadata
 from src.router import admin, user
-from src.schemas import users
-from src.schemas.users import Product
 from src.security.license import LicenseGen
 
 app = FastAPI(openapi_tags=tags_metadata)
@@ -54,7 +50,6 @@ async def webhook(
     db: Annotated[any, Depends(services.save_db)],
     license: Annotated[LicenseGen, Depends()],
 ):
-
     result = await request.json()
     print(result)
     return result

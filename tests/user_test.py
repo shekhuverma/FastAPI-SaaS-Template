@@ -59,4 +59,4 @@ async def test_delete_user(AddUser_data, login, db) -> None:
             headers={"Authorization": f"Bearer {login}"},
         )
     assert response.status_code == 200
-    assert await services.get_user(AddUser_data.txid, db) == None
+    assert await services.get_user(AddUser_data.txid, db) is None

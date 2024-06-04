@@ -10,7 +10,6 @@ from src.db import services
 from src.schemas import admins, users
 from src.security.license import LicenseGen
 from src.security.security import get_current_active_user, get_current_user
-from src.settings import CSV_FOLDER
 from src.utils import csv_utils
 
 router = APIRouter(
@@ -196,14 +195,14 @@ async def upload_CSV(
     finally:
         file.file.close()
 
-    if csv_utils.header_validator(file_location) == False:
+    if csv_utils.header_validator(file_location) is False:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "Message": """ Please Upload the CSV file in correct format \n tx_id, user_email, user_phone, amount, order_date, duration, product"""
         }
 
     data_validation_result = csv_utils.data_validator(file_location)
-    if data_validation_result != True:
+    if data_validation_result is not True:
         response.status_code = status.HTTP_400_BAD_REQUEST
         print(data_validation_result)
         return {"Message": data_validation_result}
@@ -214,7 +213,7 @@ async def upload_CSV(
             # print(RP_reponse)
 
             # Checking user does not exists
-            if await services.get_user(RP_reponse["tx_id"], db=db) == None:
+            if await services.get_user(RP_reponse["tx_id"], db=db) is None:
                 data = users.CreateUser(
                     txid=RP_reponse["tx_id"],
                     amount=RP_reponse["amount"],

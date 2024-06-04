@@ -26,7 +26,6 @@ class JWTconfig(BaseSettings):
 
 
 class LicenseGenSettings(BaseSettings):
-
     # must be 16/24/32 bytes long
     SECRET_KEY: str = "abcdefghijklmnop"
 
